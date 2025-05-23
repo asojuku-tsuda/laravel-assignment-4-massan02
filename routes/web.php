@@ -39,21 +39,21 @@ Route::get('/', function () {
 /**
  * 課題1: シンプルなGETルート
  *
- * URLパス:
+ * URLパス: /about
  * HTTPメソッド: GET
  * 処理: aboutビューを表示
  * 名前: about
  *
  * 説明: 最も基本的なルート定義。特定のURLに対して単一のビューを表示します。
  */
-// Route::xxx('xxx', function () {
-//     return view('about');  // resources/views/about.blade.phpを表示
-// })->name('about');
+Route::get('/about', function () {
+    return view('about');  // resources/views/about.blade.phpを表示
+})->name('about');
 
 /**
  * 課題2: パラメータ付きGETルート
  *
- * URLパス:
+ * URLパス: /user/{id}
  * HTTPメソッド: GET
  * 処理: userビューにidパラメータを渡して表示
  * 名前: user.show
@@ -61,14 +61,14 @@ Route::get('/', function () {
  * 説明: URLの一部をパラメータとして受け取り、そのデータをビューに渡します。
  * 例: /user/123 にアクセスすると、$id=123 となります。
  */
-// Route::get('xxx', function ($id) {
-//     return view('user', ['id' => $id]);  // 変数$idをビューに渡す
-// })->name('user.show');
+Route::get('/user/{id}', function ($id) {
+    return view('user', ['id' => $id]);  // 変数$idをビューに渡す
+})->name('user.show');
 
 /**
  * 課題3: 複数パラメータ付きGETルート
  *
- * URLパス:
+ * URLパス: /product/{category}/{id}
  * HTTPメソッド: GET
  * 処理: productビューに複数のパラメータを渡して表示
  * 名前: product.show
@@ -76,17 +76,17 @@ Route::get('/', function () {
  * 説明: 複数のパラメータを受け取るルート。順番に変数として受け取ります。
  * 例: /product/electronics/456 にアクセスすると、$category='electronics', $id=456 となります。
  */
-// Route::xxx('xxx', function ($category, $id) {
-//     return view('product', [
-//         'category' => $category,  // カテゴリーパラメータをビューに渡す
-//         'id' => $id               // 商品IDパラメータをビューに渡す
-//     ]);
-// })->name('product.show');
+Route::get('/product/{category}/{id}', function ($category, $id) {
+    return view('product', [
+        'category' => $category,  // カテゴリーパラメータをビューに渡す
+        'id' => $id               // 商品IDパラメータをビューに渡す
+    ]);
+})->name('product.show');
 
 /**
  * 課題4: オプショナルパラメータ付きGETルート
  *
- * URLパス:
+ * URLパス: /blog/{post?}
  * HTTPメソッド: GET
  * 処理: blogビューにpostパラメータ（オプション）を渡して表示
  * 名前: blog
@@ -96,21 +96,21 @@ Route::get('/', function () {
  * 例1: /blog/laravel-tips にアクセスすると、$post='laravel-tips' となります。
  * 例2: /blog にアクセスすると、$post=null となります。
  */
-// Route::xxx('xxxx', function ($post = null) {
-//     return view('blog', ['post' => $post]);  // オプショナルパラメータをビューに渡す
-// })->name('blog');
+Route::get('/blog/{post?}', function ($post = null) {
+    return view('blog', ['post' => $post]);  // オプショナルパラメータをビューに渡す
+})->name('blog');
 
 /**
  * 課題5: POSTリクエスト（フォーム送信）
  *
- * URLパス:
+ * URLパス: /message
  * HTTPメソッド: POST
  * 処理: blogビューにpostパラメータ（オプション）を渡して表示
  * 名前: blog
  *
  */
 
-Route::get('/xxxx', function (Request $request) {
+Route::post('/message', function (Request $request) {
     // 送信されたデータを取得 - Request::input() ではなく直接プロパティとしてアクセス
     $name = $request->name;
     $message = $request->message;
@@ -151,6 +151,6 @@ Route::get('/message/received', function () {
  * 404エラーページを表示するために使用されます。
  * このルートは必ず他のすべてのルート定義の後に配置する必要があります。
  */
-// Route::xxxxxx(function () {
-//     return view('404');  // resources/views/404.blade.phpを表示
-// })->name('404');
+Route::fallback(function () {
+    return view('404');  // resources/views/404.blade.phpを表示
+})->name('404');
